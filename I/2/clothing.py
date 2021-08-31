@@ -1,16 +1,10 @@
 import tensorflow as tf
 import tensorflow.keras as keras
-
-
-class myCallback(keras.callbacks.Callback):
-    def on_epoch_end(self, epoch, logs={}):
-        if(logs.get('accuracy') > 0.93):
-            print('\nReached 93 stopping')
-            self.model.stop_training = True
-
+from I.utils import TrainingTargetCallback
 
 data = keras.datasets.fashion_mnist
-callbacks = myCallback()
+callbacks = TrainingTargetCallback()
+callbacks.training_target = 0.93
 
 (training_images, training_labels), (test_images, test_labels) = data.load_data()
 
