@@ -53,17 +53,21 @@ if not os.path.exists(MODEL_PATH):
 
 model = keras.models.load_model(MODEL_PATH)
 
+count = 1
 with open('data/cat-or-dog/result.csv', 'w') as file:
     filewriter = csv.writer(file, delimiter=',')
     filewriter.writerow(['id', 'label'])
-    for file in os.listdir(TEST_DIR):
+    files = os.listdir(TEST_DIR)
+    for file in files:
         idx = file.split('.')[0]
         filepath = os.path.join(TEST_DIR, file)
         image = keras.preprocessing.image.load_img(
             filepath, target_size=target_size)
         image = keras.preprocessing.image.img_to_array(image) / 255
         image = np.array([image])
-        print(filepath)
         prediction = model.predict(image)[0][0]
         filewriter.writerow([idx, prediction])
-        print(f'id: {idx} predicted: {prediction}')
+        # print(f'id: {idx} predicted: {prediction}')
+        if count % 1000 == 0:
+            print(f'Progress: {(count / len(files)) * 100}%')
+        count += 1
