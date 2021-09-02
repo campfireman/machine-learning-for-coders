@@ -3,7 +3,7 @@ import zipfile
 
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
-training_dir = 'I/3/data/validation/'
+training_dir = 'data/horse-or-human/validation/'
 
 
 def download_validation_data():
@@ -15,12 +15,12 @@ def download_validation_data():
         zip_ref.extractall(training_dir)
 
 
-def get_validation_datagen():
+def get_validation_datagen(target_size=(300, 300)):
     validation_datagen = ImageDataGenerator(rescale=1/255)
 
-    validation_generator = validation_datagen.flow_from_directory(
+    return validation_datagen.flow_from_directory(
         training_dir,
-        target_size=(300, 300),
+        target_size=target_size,
         class_mode='binary'
     )
 
