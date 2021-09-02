@@ -39,7 +39,7 @@ model.summary()
 model.compile(optimizer=keras.optimizers.RMSprop(learning_rate=0.001),
               loss='binary_crossentropy', metrics=['accuracy'])
 
-history = model.fit_generator(
+history = model.fit(
     get_train_datagen(),
     epochs=50,
     callbacks=[callbacks],
